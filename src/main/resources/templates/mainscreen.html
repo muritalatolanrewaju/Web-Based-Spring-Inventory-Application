@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #add8e6;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #f8f9fa; /* Light grey container */
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd; /* Light border for the container */
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: #00008B; /* Dark blue for the title */
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            margin-top: 40px;
+            color: #333;
+        }
+        .btn-icon {
+            font-size: 1.5em;
+            color: #007bff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .table-bordered {
+            border: 1px solid #dee2e6;
+        }
+
+        .thead-dark th {
+            color: #fff;
+            background-color: #212529;
+            border-color: #32383e;
+        }
+        p {
+            color: #800000; /* Maroon */
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2em;
+        }
+    </style>
+
+    <title>O's Custom Built PC Shop</title>
+</head>
+<body>
+
+<div class="container">
+    <h1>Welcome to O's Custom Built PC Shop!</h1>
+    <p>Your one-stop solution for top-notch, custom-built PCs tailored to your needs.</p>
+    <a th:href="@{/about}" class="btn btn-primary btn-sm mb-3">About Us</a>
+    <hr>
+</div>
+
+    <!-- Parts Section -->
+<div class="container">
+    <h2>Explore Our Diverse Range of PC Parts</h2>
+    <form th:action="@{/mainscreen}">
+        Filter: <input type="text" name="partkeyword" id="partkeyword" size="50" th:value="${partkeyword}" required />
+        &nbsp;
+        <input type="submit" value="🔍 Search" />
+        &nbsp;
+        <input type="button" value="🔄 Clear" id="btnClearPart" onclick="clearSearch()" />
+    </form>
+    <br><br>
+    <a th:href="@{/showFormAddInPart}" class="btn btn-info btn-sm mb-3">Add Inhouse Part</a>
+    <a th:href="@{/showFormAddOutPart}" class="btn btn-info btn-sm mb-3">Add Outsourced Part</a>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Inventory</th>
+            <th>Max Inventory Value</th>
+            <th>Min Inventory value</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tempPart : ${parts}">
+            <td th:text="${tempPart.name}">1</td>
+            <td th:text="${tempPart.price}">1</td>
+            <td th:text="${tempPart.inv}">1</td>
+            <td th:text="${tempPart.maxInventory}">1</td>
+            <td th:text="${tempPart.minInventory}">1</td>
+            <td><a th:href="@{/showPartFormForUpdate(partID=${tempPart.id})}" class="btn btn-primary btn-sm mb-3">Update</a>
+                <a th:href="@{/deletepart(partID=${tempPart.id})}" class="btn btn-danger btn-sm mb-3"
+                   onclick="if(!(confirm('Are you sure you want to delete this part?')))return false">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <h2>Our Custom-Built Products</h2>
+    <!-- New part - Success and error messages -->
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+    <!-- End of new part -->
+    <form th:action="@{/mainscreen}">
+        Filter: <input type="text" name="productkeyword" id="productkeyword" size="50" th:value="${productkeyword}" required />
+        &nbsp;
+        <input type="submit" value="🔍 Search" />
+        &nbsp;
+        <input type="button" value="🔄 Clear" id="btnClearProduct" onclick="clearSearch()" />
+    </form>
+    <script type="text/javascript">
+        function clearSearch() {
+            window.location = "[[@{/}]]";
+        }
+    </script>
+    <br><br>
+    <a th:href="@{/showFormAddProduct}" class="btn btn-info btn-sm mb-3">Add Product</a>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Inventory</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tempProduct : ${products}">
+            <td th:text="${tempProduct.name}">1</td>
+            <td th:text="${tempProduct.price}">1</td>
+            <td th:text="${tempProduct.inv}">1</td>
+            <td>
+                <a th:href="@{/showProductFormForUpdate(productID=${tempProduct.id})}" class="btn btn-primary btn-sm mb-3">Update</a>
+                <form th:action="@{/buy/{id}(id=${tempProduct.id})}" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-success btn-sm mb-3">Buy Now</button>
+                </form>
+                <a th:href="@{/deleteproduct(productID=${tempProduct.id})}" class="btn btn-danger btn-sm mb-3"
+                   onclick="if(!(confirm('Are you sure you want to delete this product?')))return false">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer class="footer">
+    <div class="container text-center mt-5 mb-3">
+        <span class="text-muted">&copy; 2023 O's Custom Built PC Shop. All Rights Reserved.</span>
+    </div>
+</footer>
+</body>
+</html>

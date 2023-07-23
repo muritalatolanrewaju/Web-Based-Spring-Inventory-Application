@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product Form - O's Custom Built PC Shop</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            color: #444;
+            font-family: 'Open Sans', sans-serif;
+            padding: 0;
+            margin: 0;
+        }
+
+        header {
+            background-color: #007bff;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        header a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.2em;
+            margin-right: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #0069d9;
+            transition: background-color 0.2s;
+        }
+
+        header a:hover {
+            background-color: #0056b3;
+        }
+
+        main {
+            padding: 50px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+        }
+
+        input[type=submit] {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+            background-color: #0056b3;
+        }
+        /* Styles for tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        td {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        /* Style for the Add/Remove buttons */
+        .btn {
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <a href="http://localhost:8080/">Back to Main Screen</a>
+    </nav>
+    <h1>Product Detail</h1>
+</header>
+<main>
+    <form action="#" th:action="@{/showFormAddProduct}" th:object="${product}" method="POST"}>
+        <!-- Add hidden form field to handle update -->
+        <p><input type="hidden" th:field="*{id}"/></p>
+
+        <p><input type="text" th:field="*{name}" placeholder="Name" class="form-control"/></p>
+
+        <p><input type="text" th:field="*{price}" placeholder="Price" class="form-control"/></p>
+
+        <p><input type="text" th:field="*{inv}" placeholder="Inventory" class="form-control"/></p>
+
+        <p>
+        <div th:if="${#fields.hasAnyErrors()}">
+            <ul><li th:each="err: ${#fields.allErrors()}" th:text="${err}"></li></ul>
+        </div>
+        </p>
+        <p><input type="submit" value="Submit"/></p>
+    </form>
+
+    <!-- Table of Available Parts -->
+    <h2>Available Parts</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Inventory</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <form>
+            <tr th:each="tempPart : ${availparts}">
+                <td th:text="${tempPart.name}">1</td>
+                <td th:text="${tempPart.price}">1</td>
+                <td th:text="${tempPart.inv}">1</td>
+                <td><a th:href="@{/associatepart(partID=${tempPart.id})}" class="btn btn-primary btn-sm mb-3">Add</a>
+                </td>
+            </tr>
+        </form>
+    </table>
+
+    <!-- Table of Associated Parts -->
+    <h2>Associated Parts</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Inventory</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tempPart : ${assparts}">
+            <td th:text="${tempPart.name}">1</td>
+            <td th:text="${tempPart.price}">1</td>
+            <td th:text="${tempPart.inv}">1</td>
+            <td><a th:href="@{/removepart(partID=${tempPart.id})}" class="btn btn-primary btn-sm mb-3">Remove</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Outsourced Part Form - O's Custom Built PC Shop</title>
+
+    <!-- Add some basic CSS styling -->
+    <style>
+        body {
+            background-color: #f2f2f2;
+            color: #444;
+            font-family: 'Open Sans', sans-serif;
+            padding: 0;
+            margin: 0;
+        }
+
+        header {
+            background-color: #007bff;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        header a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.2em;
+            margin-right: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #0069d9;
+            transition: background-color 0.2s;
+        }
+
+        header a:hover {
+            background-color: #0056b3;
+        }
+
+        main {
+            padding: 50px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        p {
+            line-height: 1.6;
+            margin: 0 0 2em 0;
+            font-size: 1.1em;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+        }
+
+        input[type=submit] {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin: 0;
+        }
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+        .modal-content ul li {
+            color: red;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+        <!-- Adding the Javascript for the Modal -->
+        <script>
+         window.onload = function() {
+            var modal = document.getElementById("myModal");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+                                               span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+        }
+        };
+        </script>
+</head>
+        <!-- The Modal -->
+        <div id="myModal" class="modal" th:if="${errors}">
+        <!-- Modal content -->
+        <div class="modal-content">
+        <span class="close">&times;</span>
+        <ul>
+        <li th:each="error : ${errors}" th:text="${error.getDefaultMessage()}"></li>
+        </ul>
+        </div>
+        </div>
+<body>
+<header>
+    <nav>
+        <a href="http://localhost:8080/">Back to Main Screen</a>
+    </nav>
+    <h1>Outsourced Part Detail</h1>
+</header>
+
+<main>
+    <form action="#" th:action="@{/showFormAddOutPart}" th:object="${outsourcedpart}" method="POST">
+
+        <!-- Add hidden form field to handle update -->
+        <p><input type="hidden" th:field="*{id}"/></p>
+
+        <p><input type="text" th:field="*{name}" placeholder="Name" class="form-control mb-4 col-4"/></p>
+
+        <p><input type="text" th:field="*{price}" placeholder= "Price" class="form-control mb-4 col-4"/></p>
+        <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error-message">Price Error</p>
+
+        <p><input type="text" th:field="*{inv}" placeholder="Inventory" class="form-control mb-4 col-4"/></p>
+        <p th:if="${#fields.hasErrors('inv')}" th:errors="*{inv}" class="error-message">Inventory Error</p>
+
+        <!-- Add the new maximum inventory field -->
+        <p><input type="text" th:field="*{maxInventory}" placeholder="Max Inventory" class="form-control mb-4 col-4"/></p>
+        <p th:if="${#fields.hasErrors('maxInventory')}" th:errors="*{maxInventory}" class="error-message">Max Inventory Error</p>
+
+        <!-- Add the new minimum inventory field -->
+        <p><input type="text" th:field="*{minInventory}" placeholder="Min Inventory" class="form-control mb-4 col-4"/></p>
+        <p th:if="${#fields.hasErrors('minInventory')}" th:errors="*{minInventory}" class="error-message">Min Inventory Error</p>
+
+        <p><input type="text" th:field="*{companyName}" placeholder="Company Name" class="form-control mb-4 col-4"/></p>
+
+        <p><input type="submit" value="Submit" /></p>
+    </form>
+</main>
+        <!-- Javascript to display the modal if there are errors -->
+        <script th:inline="javascript">
+                                          /*<![CDATA[*/
+                                      var errors = /*[[${errors}]]*/ 'default';
+        if(errors) {
+            var modal = document.getElementById("myModal");
+            modal.style.display = "block";
+        }
+        /*]]>*/
+        </script>
+</body>
+</html>
