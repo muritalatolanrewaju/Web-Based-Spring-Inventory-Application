@@ -1,109 +1,38 @@
-# Project Changes Documentation
+# Web-Based Spring Inventory Application
 
-This README documents the changes made to the project according to parts C-J of the task.
+Welcome to the GitHub repository of my project, the Web-Based Spring Inventory Application. This application is designed to assist in managing inventory for a customer who sells products composed of parts. This sample use case focuses on a computer store's customer, selling computers as products and components like CPUs, RAMs, and Hard drives as parts.
 
-## Part C - Customize the HTML User Interface
+## Features
 
-### File and Line Number:
-- mainscreen.html: line 14 - 72,  77 - 79, 89, 91,94 - 95, 102 - 103, 112 - 113, 115, 121 - 128, 132, 134, 142, 157 - 162, 169 - 173.
-- about.html: line 1 - 91.
-- saveproductscreen.html: line 2, 5 - 37, 40 - 50.
-- productForm.html: line 2, 5 - 116, 119 - 128, 130, 132, 136 - 142, 144, 146 - 169.
-- OutsourcedPartForm.html: line 2, 5 - 149, 151 - 160, 162 - 167, 169 - 170, 172 - 173, 175, 177 - 178, 180 - 189, 191, 193 - 205.
-- negativeerror.html: line 2, 5 - 43, 46 - 55.
-- InhousePartForm.html: line 2, 5 - 148, 150 - 159, 161 - 169, 171 - 172, 174, 176 - 177, 179 - 188, 190, 192 - 205.
-- confirmationdeleteproduct.html: line 2, 4 - 43, 46 - 55, 57 - 61.
-- confirmationdeletepart.html: line 2, 4 - 37, 40 - 49, 51 - 55.
-- confirmationassocpart.html: line 2, 4 - 37, 40 - 49, 51 - 55.
-- confirmationaddproduct.html: line 2, 4 - 37, 40 - 49, 51 - 55.
-- confirmationaddpart.html: line 2, 4 - 38, 41 - 50, 52 - 56.
-  
-### Change:
-- Added CSS and button color for user-friendly interface.
-- Added shop name, 
-- Addedproduct names,
-- Added Max and Min inventory columns.
-- Added "Back to Product Form" button.
-- Added pop-up modal for error message.
+- **Customizable HTML User Interface**: The application includes an HTML user interface that can be customized to display the shop name, the names of the products, and the names of the parts.
+- **About Page**: The application features an "About" page that provides information about the customer's company. This page is accessible from the main screen and vice versa.
+- **Sample Inventory**: The application has a sample inventory suitable for a computer store. It includes five parts and five products.
+- **Buy Now Button**: The product list has a "Buy Now" button. On clicking this button, the inventory of the product decreases by one.
+- **Maximum and Minimum Inventory Tracking**: he application tracks each part's maximum and minimum inventory.
+- **Inventory Validation**: The application validates that the inventory of each part and product is within the maximum and minimum limits.
+- **Unit Tests**: The application includes unit tests for the maximum and minimum inventory fields.
 
-## Part D - Add an "About" Page
+## Setup and Installation
 
-### File and Line Number:
-- about.html: line 1 - 91.
+**Prerequisite**: To run this application, you must install Java and Spring Framework on your computer.
 
-### Change:
-- Created an about page for the customer. Add navigation links.
+1. **Clone the repository**: Use the `git clone <repository-url>` command to clone this repository to your local machine.
+2. **Navigate to the cloned directory**: Use `cd <directory>` command to navigate to the cloned directory.
+3. **Run the application**: Use the `mvn spring-boot:run` command to run the application.
 
-## Part E - Add a Sample Inventory
+## Usage
 
-### File and Line Number:
-- BootStrapData.java: line 4, 16, 40 - 76.
-- mainscreen.html: line 108 - 113, 153 - 156.
+After setting up the application, you can start using it to manage the inventory for your computer store.
 
-### Change:
-- Added constructors to create instances of the InhousePart class.
-- Imported the InhousePart class, service package, and set utility.
-- Checked if the database is empty before adding sample data.
-- Added sample data to the database.
-- 
+1. **Load the User Interface**: Open your web browser and navigate to `http://localhost:8080` to load the user interface.
+2. **View and Update Inventory**: The inventory of parts and products is displayed on the main page. You can add, update, or delete parts and products.
+3. **Purchase Products**: Click the "Buy Now" button next to the product to purchase a product. This will decrement the product's inventory by one.
+4. **View About Page**: To view the "About" page, click the "About" link in the navigation menu.
 
-## Part F - Add a "Buy Now" Button
+## Contribution
 
-### File and Line Number:
-- BuyNowController.java: line 1 - 33.
-- mainscreen.html: line 159 - 161.
+Please submit a pull request if you would like to contribute to this project.
 
-### Change:
-- Added The “Buy Now” button between the update and delete products buttons.
-- Added a new controller class called BuyNowController to handle the buy now functionality.
-- Displayed a message to indicate the success or failure of a purchase.
+## License
 
-## Part G - Track Maximum and Minimum Inventory
-
-### File and Line Number:
-- application.properties: line 6.
-- Part.java: 4, 19, 24, 33 - 36, 46, 54, 59 - 60, 94 - 103.
-
-### Change:
-- Added additional fields to the part entity for maximum and minimum inventory.
-- Modified the sample inventory to include the maximum and minimum fields.
-- Added to the InhousePartForm and OutsourcedPartForm forms additional text inputs for the inventory so the user can set the maximum and minimum values.
-- Renamed the file the persistent storage is saved to spring-boot-h2-db-Student_ID_*.
-- Modified the code to enforce that the inventory is between or at the minimum and maximum value.
-- 
-## Part H - Add Validation for Maximum and Minimum Fields
-
-### File and Line Number:
-- ValidInventory.java: line 1 - 15.
-- InventoryValidator.java: line 1 - 27.
-- Part.java: 4, 19, 24, 33 - 36, 46, 54, 59 - 60, 94 - 103.
-- AddProductController.java: line 30, 32 - 33, 59 - 68, 76, 89.
-
-### Change:
-- InventoryValidator.java validates the inventory of a Part object by checking if it falls within the specified minimum and maximum inventory limits.
-- ValidInventory.java defines the ValidInventory annotation and specifies the InventoryValidator class as the validator for the annotation.
-- Applied @Min annotation and declaration to min and max field.
-- Made Part class non-abstract.
-- Applied ValidInventory constraint to inventory field.
-- Imported ValidInventory annotation.
-- Added a setter and getter for the minimum and maximum inventory field.
-- Added a constructor that takes the minimum and maximum inventory as parameters.
-
-## Part I - Add Unit Tests for Maximum and Minimum Fields
-
-### File and Line Number:
-- PartTest.java: line 30 - 45.
-
-### Change:
--  Added two unit tests for the maximum and minimum fields to the PartTest class in the test package.
-
-
-## Part J - Remove Unused Validators
-
-### File and Line Number:
-- None.
-
-### Change:
-- No unused validators were found.
-
-
+This project is licensed under GNU General Public License v3.0.
